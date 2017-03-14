@@ -24,7 +24,7 @@ import java.io.IOException;
 public class AddLocoToTrain extends HttpServlet{
     @Inject
     TrainDao trainDao;
-
+    //testowy komenatarz
     @PersistenceUnit(name = "myPersistenceUnit")
     private EntityManagerFactory emf;
 
