@@ -24,29 +24,16 @@ import java.io.IOException;
 public class AddLocoToTrain extends HttpServlet{
     @Inject
     TrainDao trainDao;
-    //testowy komenatarz
-    @PersistenceUnit(name = "myPersistenceUnit")
-    private EntityManagerFactory emf;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         long trainId = Long.parseLong(request.getParameter("trainid"));
         long locoId = Long.parseLong(request.getParameter("locoid"));
 
-        EntityManager em = emf.createEntityManager();
-        Train train=em.find(Train.class, trainId);
-        Loco loco=em.find(Loco.class, locoId);
-
-        EntityTransaction tx=em.getTransaction();
-        tx.begin();
-        //System.out.println(loco);
-        train.getLoco().add(loco);
-        tx.commit();
-        em.close();
-
+        Train train=trainDao.getTrain(trainId);
+        Loco loco=trainDao.getLoco(locoId);
+        train = trainDao.addLocoToTrain(train, loco);
         response.sendRedirect(request.getContextPath());
-
-
     }
 
 }

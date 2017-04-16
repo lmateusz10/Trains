@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
 import java.io.IOException;
 
 /**
@@ -18,11 +19,10 @@ import java.io.IOException;
  */
 @WebServlet("/addwagon")
 public class AddWagon extends HttpServlet {
+
     @Inject
     TrainDao trainDao;
 
-    @PersistenceUnit(name = "myPersistenceUnit")
-    private EntityManagerFactory entityManagerFactory;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{

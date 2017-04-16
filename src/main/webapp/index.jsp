@@ -104,24 +104,43 @@
     <input type="submit" value="Add Product" />
 </form>
 
-<h3>Get client</h3>
-<form action="getclient" method="post">
-    <input type="number" name="clientId" placeholder="Client ID" />
-    <input type="submit" value="Get Client" />
+
+
+<h3>Get train</h3>
+<form action="gettrain" method="post">
+    <input type="number" name="trainid" placeholder="Train ID" />
+    <input type="submit" value="Get Train" />
 </form>
 
-<h3>Get order</h3>
-<form action="getorder" method="post">
-    <input type="number" name="orderId" placeholder="Order ID" />
-    <input type="submit" value="Get Order" />
+<h3>Get loco</h3>
+<form action="getloco" method="post">
+    <input type="number" name="locoid" placeholder="Loco ID" />
+    <input type="submit" value="Get loco" />
 </form>
 
-<h3>Get Product</h3>
-<form action="getproduct" method="post">
-    <input type="number" name="productId" placeholder="Product ID" />
-    <input type="submit" value="Get Product" />
+<h3>Remove loco from train</h3>
+<form action="removelocofromtrain" method="post">
+    <input type="number" name="trainid" placeholder="id pociagu" />
+    <br />
+    <input type="number" name="locoid" placeholder="id lokomotowy" />
+    <br />
+    <input type="submit" value="Remove loco from train" />
 </form>
-ut type="submit" value="Get Order" />
+
+<h3>Remove wagon from train</h3>
+<form action="removewagonfromtrain" method="post">
+    <input type="number" name="trainid" placeholder="id pociagu" />
+    <br />
+    <input type="number" name="wagonid" placeholder="id wagonu" />
+    <br />
+    <input type="submit" value="Remove wagon from train" />
 </form>
+
+<h3>Remove train</h3>
+<form action="removetrain" method="post">
+    <input type="number" name="trainid" placeholder="Train ID" />
+    <input type="submit" value="Remove Train" />
+</form>
+
 </body>
 </html>

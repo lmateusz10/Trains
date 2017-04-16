@@ -21,28 +21,18 @@ public class AddWagonToTrain extends HttpServlet {
     @Inject
     TrainDao trainDao;
 
-    @PersistenceUnit(name = "myPersistenceUnit")
-    private EntityManagerFactory emf;
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         long trainId = Long.parseLong(request.getParameter("trainid"));
         long wagonId = Long.parseLong(request.getParameter("wagonid"));
 
-        EntityManager em = emf.createEntityManager();
-        Train train=em.find(Train.class, trainId);
-        Wagon wagon=em.find(Wagon.class, wagonId);
+        Train train=trainDao.getTrain(trainId);
+        Wagon wagon=trainDao.getWagon(wagonId);
 
-        EntityTransaction tx=em.getTransaction();
-        tx.begin();
-        //System.out.println(wagon);
-        train.getWagons().add(wagon);
-        tx.commit();
-        em.close();
+        train = trainDao.addWagonToTrain(train, wagon);
 
         response.sendRedirect(request.getContextPath());
-
-
     }
 
 }

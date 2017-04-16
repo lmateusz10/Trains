@@ -9,10 +9,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "wagons")
+@NamedQuery(name = "Wagons.findAll", query = "SELECT w FROM Wagon w")
 public class Wagon implements Serializable{
     public static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String mark;
     private String type;
@@ -20,8 +21,7 @@ public class Wagon implements Serializable{
     private String owner;
     private String seatingAreas;
     private String quantity;
-
-    @ManyToMany(mappedBy = "wagons")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "wagons")
     private List<Train> trains;
 
     public List<Train> getTrains() {
@@ -31,8 +31,6 @@ public class Wagon implements Serializable{
     public void setTrains(List<Train> trains) {
         this.trains = trains;
     }
-
-
 
     public String getQuantity() {
         return quantity;
@@ -44,13 +42,14 @@ public class Wagon implements Serializable{
 
     public Wagon(){}
 
-    public Wagon(String mark, String type, String producer, String owner, String seatingAreas, String quantity) {
+    public Wagon(String mark, String type, String producer, String owner, String seatingAreas, String quantity, List<Train> trains) {
         this.mark = mark;
         this.type = type;
         this.producer = producer;
         this.owner = owner;
         this.seatingAreas = seatingAreas;
         this.quantity = quantity;
+        this.trains = trains;
     }
 
     public long getId() {
@@ -99,5 +98,46 @@ public class Wagon implements Serializable{
 
     public void setSeatingAreas(String seatingAreas) {
         this.seatingAreas = seatingAreas;
+    }
+
+    @Override
+    public String toString() {
+        return "Wagon{" +
+                "id=" + id +
+                ", mark='" + mark + '\'' +
+                ", type='" + type + '\'' +
+                ", producer='" + producer + '\'' +
+                ", owner='" + owner + '\'' +
+                ", seatingAreas='" + seatingAreas + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", trains=" + trains +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Wagon wagon = (Wagon) o;
+
+        if (mark != null ? !mark.equals(wagon.mark) : wagon.mark != null) return false;
+        if (type != null ? !type.equals(wagon.type) : wagon.type != null) return false;
+        if (producer != null ? !producer.equals(wagon.producer) : wagon.producer != null) return false;
+        if (owner != null ? !owner.equals(wagon.owner) : wagon.owner != null) return false;
+        if (seatingAreas != null ? !seatingAreas.equals(wagon.seatingAreas) : wagon.seatingAreas != null) return false;
+        return !(quantity != null ? !quantity.equals(wagon.quantity) : wagon.quantity != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mark != null ? mark.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (producer != null ? producer.hashCode() : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (seatingAreas != null ? seatingAreas.hashCode() : 0);
+        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
+        return result;
     }
 }

@@ -6,30 +6,32 @@ import pl.trains.model.Train;
 import pl.trains.model.Wagon;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.Transactional;
 import java.io.IOException;
 
 /**
- * Created by Mateusz on 28.02.2017.
+ * Created by Mateusz on 19.03.2017.
  */
-@WebServlet("/addtrain")
-public class AddTrain extends HttpServlet {
+@WebServlet("/removewagonfromtrain")
+public class RemoveWagonFromTrain extends HttpServlet{
     @Inject
     TrainDao trainDao;
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
-            ServletException, IOException{
-        Train train = new Train();
-        train.setTrainName(request.getParameter("name"));
-        trainDao.addTrain(train);
+            ServletException, IOException {
+        long trainid = Long.parseLong(request.getParameter("trainid"));
+        long wagonid = Long.parseLong(request.getParameter("wagonid"));
+
+        Train train = trainDao.getTrain(trainid);
+        Wagon wagon = trainDao.getWagon(wagonid);
+
+        train = trainDao.removeWagonFromTrain(wagon, train);
+
         response.sendRedirect(request.getContextPath());
     }
 }

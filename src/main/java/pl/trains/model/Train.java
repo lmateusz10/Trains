@@ -2,7 +2,9 @@ package pl.trains.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Mateusz on 28.02.2017.
@@ -12,27 +14,26 @@ import java.util.List;
 public class Train implements Serializable {
     public static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String trainName;;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_wagons",
     joinColumns = { @JoinColumn(name = "train_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "wagon_id", referencedColumnName = "id")})
     private List<Wagon> wagons;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_locos",
     joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "loco_id", referencedColumnName = "id")})
-    private List<Loco> locos;
+    private Set<Loco> locos;
 
-
-    public List<Loco> getLoco() {
+    public Set<Loco> getLocos() {
         return locos;
     }
 
-    public void setLoco(List<Loco> loco) {
+    public void setLocos(Set<Loco> locos) {
         this.locos = locos;
     }
 
@@ -49,7 +50,7 @@ public class Train implements Serializable {
 
     public Train(){}
 
-    public Train(String trainName, List<Wagon> wagons, List<Loco> locos) {
+    public Train(String trainName, List<Wagon> wagons, Set<Loco> locos) {
         this.trainName = trainName;
         this.wagons = wagons;
         this.locos = locos;
@@ -71,4 +72,19 @@ public class Train implements Serializable {
         this.trainName = trainName;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Train train = (Train) o;
+
+        return !(trainName != null ? !trainName.equals(train.trainName) : train.trainName != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return trainName != null ? trainName.hashCode() : 0;
+    }
 }

@@ -1,14 +1,18 @@
 package pl.trains.dao;
 
 import pl.trains.model.Loco;
+import pl.trains.model.Product;
 import pl.trains.model.Train;
 import pl.trains.model.Wagon;
+import pl.trains.util.TransactionalMethod;
 
 import javax.enterprise.context.RequestScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceUnit;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.persistence.*;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
+import java.util.List;
 
 /**
  * Created by Mateusz on 28.02.2017.
@@ -16,92 +20,113 @@ import javax.persistence.PersistenceUnit;
 @RequestScoped
 public class TrainDaoImpl implements TrainDao {
 
-    @PersistenceUnit(name = "myPersistenceUnit")
-    private EntityManagerFactory entityManagerFactory;
+    @Inject
+    private EntityManager entityManager;
 
     @Override
-    public void addTrain(Train train){
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
-        entityManager.persist(train);
-        entityTransaction.commit();
-        entityManager.close();
+    @TransactionalMethod
+    public Train removeLocoFromTrain(Loco loco, Train train){
+        train.getLocos().remove(loco);
+        train = entityManager.merge(train);
+        return train;
     }
     @Override
-    public boolean removeTrain(Train train){
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
+    @TransactionalMethod
+    public Train removeWagonFromTrain(Wagon wagon, Train train){
+        train.getWagons().remove(wagon);
+        train = entityManager.merge(train);
+        return train;
+    }
+
+    @Override
+    @TransactionalMethod
+    public Train addLocoToTrain(Train train, Loco loco){
+        System.out.println(loco.getName());
+        train.getLocos().add(loco);
+        entityManager.merge(train);
+        return train;
+    }
+
+    @Override
+    @Transactional
+    public Train addWagonToTrain(Train train, Wagon wagon){
+
+        train.getWagons().add(wagon);
+        entityManager.merge(train);
+        return train;
+    }
+    @Override
+    @Transactional
+    public void update(Train train){
+        entityManager.merge(train);
+    }
+
+    @Override
+    @TransactionalMethod
+    public List<Wagon> findAll() {
+        TypedQuery<Wagon> findAllQuery = entityManager.createNamedQuery("Wagons.findAll", Wagon.class);
+        List<Wagon> resultList = findAllQuery.getResultList();
+        return resultList;
+    }
+    @Override
+    @Transactional
+    public void addTrain(Train train){
+        entityManager.persist(train);
+    }
+
+    @Override
+    @Transactional
+    public boolean removeTrain(Long trainid){
+        Train train = entityManager.find(Train.class, trainid);
+        for (Loco loco:train.getLocos()) {
+            train.getLocos().remove(loco);
+        }
+        train = entityManager.merge(train);
         entityManager.remove(train);
-        entityTransaction.commit();
-        entityManager.close();
         return true;
     }
     @Override
+    @TransactionalMethod
     public Train getTrain(Long id){
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction=entityManager.getTransaction();
-        entityTransaction.begin();
         Train train = entityManager.find(Train.class, id);
-        entityTransaction.commit();
-        entityManager.close();
         return train;}
 
 
     @Override
+    @TransactionalMethod
     public void addWagon(Wagon wagon){
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
         entityManager.persist(wagon);
-        entityTransaction.commit();
-        entityManager.close();
     }
+
     @Override
     public boolean removeWagon(Wagon wagon){
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-        entityTransaction.begin();
         entityManager.remove(wagon);
-        entityTransaction.commit();
-        entityManager.close();
         return true;
     }
     @Override
+    @Transactional
     public Wagon getWagon(Long id){
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction=entityManager.getTransaction();
-        entityTransaction.begin();
         Wagon wagon = entityManager.find(Wagon.class, id);
-        entityTransaction.commit();
-        entityManager.close();
         return wagon;
 
     }
 
     @Override
+    @Transactional
     public void addLoco(Loco loco){
-        EntityManager entityManager= entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction=entityManager.getTransaction();
-        entityTransaction.begin();
         entityManager.persist(loco);
-        entityTransaction.commit();
-        entityManager.close();
     }
 
     @Override
+    @Transactional
     public Loco getLoco(Long id){
-        EntityManager entityManager=entityManagerFactory.createEntityManager();
-        EntityTransaction entityTransaction=entityManager.getTransaction();
-        entityTransaction.begin();
         Loco loco = entityManager.find(Loco.class, id);
         loco.getTrains().size();
-        entityTransaction.commit();
-        entityManager.close();
         return loco;
 
     }
+
+
 
 
 }
