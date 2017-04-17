@@ -4,7 +4,6 @@ import pl.trains.model.Loco;
 import pl.trains.model.Product;
 import pl.trains.model.Train;
 import pl.trains.model.Wagon;
-import pl.trains.util.TransactionalMethod;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -18,20 +17,21 @@ import java.util.List;
  * Created by Mateusz on 28.02.2017.
  */
 @RequestScoped
+@Transactional
 public class TrainDaoImpl implements TrainDao {
 
-    @Inject
+    @PersistenceContext(name = "myPersistenceUnit")
     private EntityManager entityManager;
 
     @Override
-    @TransactionalMethod
+    @Transactional
     public Train removeLocoFromTrain(Loco loco, Train train){
         train.getLocos().remove(loco);
         train = entityManager.merge(train);
         return train;
     }
     @Override
-    @TransactionalMethod
+    @Transactional
     public Train removeWagonFromTrain(Wagon wagon, Train train){
         train.getWagons().remove(wagon);
         train = entityManager.merge(train);
@@ -39,7 +39,7 @@ public class TrainDaoImpl implements TrainDao {
     }
 
     @Override
-    @TransactionalMethod
+    @Transactional
     public Train addLocoToTrain(Train train, Loco loco){
         System.out.println(loco.getName());
         train.getLocos().add(loco);
@@ -62,7 +62,7 @@ public class TrainDaoImpl implements TrainDao {
     }
 
     @Override
-    @TransactionalMethod
+    @Transactional
     public List<Wagon> findAll() {
         TypedQuery<Wagon> findAllQuery = entityManager.createNamedQuery("Wagons.findAll", Wagon.class);
         List<Wagon> resultList = findAllQuery.getResultList();
@@ -86,19 +86,20 @@ public class TrainDaoImpl implements TrainDao {
         return true;
     }
     @Override
-    @TransactionalMethod
+    @Transactional
     public Train getTrain(Long id){
         Train train = entityManager.find(Train.class, id);
         return train;}
 
 
     @Override
-    @TransactionalMethod
+    @Transactional
     public void addWagon(Wagon wagon){
         entityManager.persist(wagon);
     }
 
     @Override
+    @Transactional
     public boolean removeWagon(Wagon wagon){
         entityManager.remove(wagon);
         return true;

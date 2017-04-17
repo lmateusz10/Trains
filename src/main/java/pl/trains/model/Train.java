@@ -2,7 +2,6 @@ package pl.trains.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,20 +12,23 @@ import java.util.Set;
 @Table(name = "trains")
 public class Train implements Serializable {
     public static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String trainName;;
-    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.PERSIST, CascadeType.REFRESH})
+
+    private String trainName;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_wagons",
-    joinColumns = { @JoinColumn(name = "train_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "wagon_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "wagon_id", referencedColumnName = "id")})
     private List<Wagon> wagons;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_locos",
-    joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
-    inverseJoinColumns = {@JoinColumn(name = "loco_id", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "loco_id", referencedColumnName = "id")})
     private Set<Loco> locos;
 
     public Set<Loco> getLocos() {
@@ -38,7 +40,6 @@ public class Train implements Serializable {
     }
 
 
-
     public void setWagons(List<Wagon> wagons) {
         this.wagons = wagons;
     }
@@ -48,7 +49,8 @@ public class Train implements Serializable {
     }
 
 
-    public Train(){}
+    public Train() {
+    }
 
     public Train(String trainName, List<Wagon> wagons, Set<Loco> locos) {
         this.trainName = trainName;
