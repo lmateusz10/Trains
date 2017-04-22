@@ -18,14 +18,14 @@ import java.io.IOException;
 public class RemoveTrain extends HttpServlet {
 
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
 
         Long trainid=Long.parseLong(request.getParameter("trainid"));
-        trainDao.removeTrain(trainid);
+        trainsService.removeTrainById(trainid);
 
         response.sendRedirect(request.getContextPath());
 

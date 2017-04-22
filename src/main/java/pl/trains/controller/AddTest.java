@@ -21,7 +21,7 @@ import java.io.IOException;
 public class AddTest extends HttpServlet {
 
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     @PersistenceUnit(name = "myPersistenceUnit")
     private EntityManagerFactory emf;

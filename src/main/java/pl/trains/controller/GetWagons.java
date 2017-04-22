@@ -18,10 +18,10 @@ import java.util.List;
 @WebServlet("/getwagons")
 public class GetWagons extends HttpServlet{
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
     @Override
     protected void doGet(HttpServletRequest request,  HttpServletResponse response) throws ServletException, IOException{
-    List<Wagon> wagons=trainDao.findAll();
+    List<Wagon> wagons=trainsService.getAllWagons();
         for (Wagon wagon:wagons) {
             System.out.println(wagon);
         }

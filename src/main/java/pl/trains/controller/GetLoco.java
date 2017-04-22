@@ -20,12 +20,12 @@ import java.util.List;
 @WebServlet("/getloco")
 public class GetLoco extends HttpServlet {
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Long locoid = Long.parseLong(request.getParameter("locoid"));
-        Loco loco = trainDao.getLoco(locoid);
+        Loco loco = trainsService.getLocoById(locoid);
 
         List<Train> trains = loco.getTrains();
         for (Train train:trains) {

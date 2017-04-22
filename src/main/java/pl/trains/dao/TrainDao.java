@@ -11,20 +11,28 @@ import java.util.List;
  * Created by Mateusz on 28.02.2017.
  */
 public interface TrainDao {
-    public Train addWagonToTrain(Train train, Wagon wagon);
-    public Train removeWagonFromTrain(Wagon wagon, Train train);
-    public Train removeLocoFromTrain(Loco loco, Train train);
-    public void update(Train train);
-    public Train addLocoToTrain(Train train, Loco loco);
-    public List<Wagon> findAll();
+    //trains
     public void addTrain(Train train);
-    public boolean removeTrain(Long trainid);
-    public Train getTrain(Long id);
-    public void addWagon(Wagon wagon);
-    public boolean removeWagon(Wagon wagon);
-    public Wagon getWagon(Long id);
-    public void addLoco(Loco loco);
-    public Loco getLoco(Long id);
+    public Train getTrainById(Long id);
+    public void addWagonToTrain(Train train, Wagon wagon);
+    public void removeWagonFromTrain(Wagon wagon, Train train);
+    public void removeLocoFromTrain(Loco loco, Train train);
+    public void updateTrain(Train train);
+    public void addLocoToTrain(Train train, Loco loco);
+    public void removeTrainById(Long trainid);
 
+    //locos
+    public void addLoco(Loco loco);
+    public Loco getLocoById(Long id);
+    public List<Loco> getAllLocos();
+    public void removeLoco(Loco loco);
+    public void removeLocoById(Long id);
+
+    //wagons
+    public void addWagon(Wagon wagon);
+    public Wagon getWagonById(Long id);
+    public List<Wagon> getAllWagons();
+    public void removeWagon(Wagon wagon);
+    public void removeWagonById(Long id);
 
 }
