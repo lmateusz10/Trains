@@ -1,5 +1,9 @@
 package pl.trains.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +26,7 @@ public class Wagon implements Serializable{
     private String seatingAreas;
     private String quantity;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "wagons")
+    @JsonBackReference
     private List<Train> trains;
 
     public List<Train> getTrains() {

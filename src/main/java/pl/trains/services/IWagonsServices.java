@@ -12,5 +12,7 @@ public interface IWagonsServices {
     public Wagon getWagonById(Long id);
     public List<Wagon> getAllWagons();
     public void removeWagon(Wagon wagon);
-    public void removeWagonById(Long id);
-}
+//    public void removeWagonById(Long id);
+    public List<Wagon> getWagonByAnything(String anything);
+
+    }

@@ -17,4 +17,5 @@ public interface ILocoService {
     public void removeLocoById(Long id);
 
     public List<Loco> getAllLocos();
+    public List<Loco> getLocoByName(String name);
 }

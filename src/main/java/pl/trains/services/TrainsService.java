@@ -7,6 +7,7 @@ import pl.trains.model.Wagon;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by mateusz on 18.04.17.
@@ -56,5 +57,15 @@ public class TrainsService implements ITrainsService {
     @Override
     public void removeTrainById(Long trainid) {
         trainDao.removeTrainById(trainid);
+    }
+
+    @Override
+    public List<Train> getTrainByName(String name){
+        return trainDao.getTrainByName(name);
+    }
+
+    @Override
+    public List<Train> getAllTrains(){
+        return trainDao.getAllTrains();
     }
 }

@@ -18,5 +18,6 @@ public interface ITrainsService {
     public void updateTrain(Train train);
     public void addLocoToTrain(Train train, Loco loco);
     public void removeTrainById(Long trainid);
-
+    public List<Train> getTrainByName(String name);
+    public List<Train> getAllTrains();
 }

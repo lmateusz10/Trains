@@ -41,4 +41,9 @@ public class LocoService implements ILocoService{
         return trainDao.getAllLocos();
     }
 
+    @Override
+    public List<Loco> getLocoByName(String name){
+        List<Loco> locoList = trainDao.getLocoByName(name);
+        return locoList;
+        }
     }

@@ -62,6 +62,18 @@ public class TrainDaoImpl implements TrainDao {
         entityManager.remove(train);
     }
 
+    public List<Train> getTrainByName(String name){
+        TypedQuery<Train> query = entityManager.createQuery("select t from Train t where t.trainName like :name", Train.class);
+        query.setParameter("name", "%" + name + "%");
+        List<Train> trainList = query.getResultList();
+        return trainList;
+    }
+    public List<Train> getAllTrains(){
+        TypedQuery<Train> query = entityManager.createQuery("select t from Train t", Train.class);
+        List<Train> trainList = query.getResultList();
+        return trainList;
+    }
+
 
     @Override
     @Transactional
@@ -100,7 +112,9 @@ public class TrainDaoImpl implements TrainDao {
     @Override
     @Transactional
     public void updateTrain(Train train) {
-        entityManager.merge(train);
+        Train oldtrain = entityManager.find(Train.class, train);
+        oldtrain = train;
+        entityManager.merge(oldtrain);
     }
 
     //wagons
@@ -120,8 +134,18 @@ public class TrainDaoImpl implements TrainDao {
             System.err.println("Nie znaleziono wagonu");
         }
         return wagon;
+    }
 
+    @Override
+    @Transactional
+    public List<Wagon> getWagonByAnything(String anything){
+        Wagon wagon = null;
 
+        TypedQuery<Wagon> query = entityManager.createQuery("select w from Wagon w where w.mark like :anything" +
+                " or w.owner like :anything or w.type like :anything or w.producer like :anything", Wagon.class );
+        query.setParameter("anything", "%" + anything + "&");
+        List<Wagon> wagonList = query.getResultList();
+        return  wagonList;
     }
 
     @Override
@@ -169,7 +193,6 @@ public class TrainDaoImpl implements TrainDao {
         } finally {
             return loco;
         }
-
     }
 
     @Override
@@ -197,4 +220,14 @@ public class TrainDaoImpl implements TrainDao {
         return locos;
     }
 
+    @Override
+    @Transactional
+    public List<Loco> getLocoByName(String name){
+        TypedQuery<Loco> findLocoByNameQuery = entityManager
+                .createQuery("select l from Loco l where l.name like  :name", Loco.class);
+        findLocoByNameQuery.setParameter("name", "%" + name + "%");
+        List<Loco> locoList = findLocoByNameQuery.getResultList();
+        System.out.println(locoList);
+        return locoList;
+    }
 }

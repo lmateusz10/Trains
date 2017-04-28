@@ -1,7 +1,6 @@
 package pl.trains.rest;
 
-import pl.trains.model.Loco;
-import pl.trains.model.Wagon;
+import pl.trains.model.*;
 import pl.trains.services.LocoService;
 import pl.trains.services.WagonsService;
 
@@ -10,6 +9,8 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mateusz on 19.04.17.
@@ -28,13 +29,26 @@ public class WagonsEndpoint {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getLocoById(@PathParam("id") Long id){
-        if (wagonsService.getWagonById(id)!=null){
+    public Response getWagonById(@PathParam("id") Long id){
+
+        Wagon wagon = wagonsService.getWagonById(1L);
+        if (wagon!=null){
             return Response.ok().entity(wagonsService.getWagonById(id)).build();
         }
         else
             return Response.status(404).build();
+    }
 
+    @GET
+    @Path("/getwagonbyanything/{anything}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getWagonByAnything(@PathParam("anything") String anything){
+        List<Wagon> wagonList = wagonsService.getWagonByAnything(anything);
+        if (!wagonList.isEmpty()){
+            return Response.ok().entity(wagonList).build();
+        }
+        else
+            return Response.noContent().build();
     }
 
 
@@ -46,11 +60,11 @@ public class WagonsEndpoint {
         return Response.status(200).build();
     }
 
-    @DELETE
+/*    @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeLocoById(@PathParam("id") Long id){
         wagonsService.removeWagonById(id);
         return Response.ok().build();
-    }
+    }*/
 }

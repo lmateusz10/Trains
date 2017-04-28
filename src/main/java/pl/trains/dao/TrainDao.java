@@ -6,6 +6,7 @@ import pl.trains.model.Train;
 import pl.trains.model.Wagon;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Mateusz on 28.02.2017.
@@ -20,6 +21,8 @@ public interface TrainDao {
     public void updateTrain(Train train);
     public void addLocoToTrain(Train train, Loco loco);
     public void removeTrainById(Long trainid);
+    public List<Train> getTrainByName(String name);
+    public List<Train> getAllTrains();
 
     //locos
     public void addLoco(Loco loco);
@@ -27,12 +30,15 @@ public interface TrainDao {
     public List<Loco> getAllLocos();
     public void removeLoco(Loco loco);
     public void removeLocoById(Long id);
+    public List<Loco> getLocoByName(String name);
 
-    //wagons
+        //wagons
     public void addWagon(Wagon wagon);
     public Wagon getWagonById(Long id);
     public List<Wagon> getAllWagons();
     public void removeWagon(Wagon wagon);
     public void removeWagonById(Long id);
+    public List<Wagon> getWagonByAnything(String anything);
 
-}
+
+    }

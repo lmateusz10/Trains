@@ -38,6 +38,20 @@ public class LocosEndpoint {
 
     }
 
+    @GET
+    @Path("/getbyname/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getLocoByName(@PathParam("name") String name){
+        List<Loco> loco = null;
+        if ((loco = locoService.getLocoByName(name)).isEmpty() ){
+            return Response.ok().entity(locoService.getLocoByName(name)).build();
+        }
+        else
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+    }
+
+
 
     @POST
     @Path("/addloco")
@@ -51,8 +65,6 @@ public class LocosEndpoint {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeLocoById(@PathParam("id") Long id){
-        System.out.println("AAAAAA" + id);
-
         locoService.removeLocoById(id);
         return Response.ok().build();
         }
