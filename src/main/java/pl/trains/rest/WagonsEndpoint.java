@@ -44,6 +44,9 @@ public class WagonsEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getWagonByAnything(@PathParam("anything") String anything){
         List<Wagon> wagonList = wagonsService.getWagonByAnything(anything);
+        for (Wagon wagon: wagonList) {
+            System.out.println(wagon);
+        }
         if (!wagonList.isEmpty()){
             return Response.ok().entity(wagonList).build();
         }
@@ -55,9 +58,12 @@ public class WagonsEndpoint {
     @POST
     @Path("/addwagon")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addLoco(Wagon wagon){
-        wagonsService.addWagon(wagon);
-        return Response.status(200).build();
+    public Response addWagon(Wagon wagon){
+        if(wagonsService.addWagon(wagon)) {
+            return Response.status(200).build();
+        }
+        else
+            return Response.notModified().build();
     }
 
 /*    @DELETE

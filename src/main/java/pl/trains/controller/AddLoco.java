@@ -2,6 +2,8 @@ package pl.trains.controller;
 
 import pl.trains.dao.TrainDao;
 import pl.trains.model.Loco;
+import pl.trains.services.LocoService;
+import pl.trains.services.TrainsService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -18,7 +20,7 @@ import java.io.IOException;
 public class AddLoco extends HttpServlet{
 
     @Inject
-    TrainDao trainsService;
+    LocoService trainsService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Loco loco = new Loco();

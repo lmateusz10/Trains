@@ -4,6 +4,8 @@ import pl.trains.dao.TrainDao;
 import pl.trains.model.Loco;
 import pl.trains.model.Train;
 import pl.trains.model.Wagon;
+import pl.trains.services.LocoService;
+import pl.trains.services.TrainsService;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -23,7 +25,10 @@ import java.io.IOException;
 @WebServlet("/addlocototrain")
 public class AddLocoToTrain extends HttpServlet{
     @Inject
-    TrainDao trainsService;
+    TrainsService trainsService;
+
+    @Inject
+    LocoService locoService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,7 +36,7 @@ public class AddLocoToTrain extends HttpServlet{
         long locoId = Long.parseLong(request.getParameter("locoid"));
 
         Train train=trainsService.getTrainById(trainId);
-        Loco loco=trainsService.getLocoById(locoId);
+        Loco loco=locoService.getLocoById(locoId);
         trainsService.addLocoToTrain(train, loco);
         response.sendRedirect(request.getContextPath());
     }

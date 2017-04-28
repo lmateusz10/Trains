@@ -4,6 +4,7 @@ import pl.trains.dao.TrainDao;
 import pl.trains.model.Loco;
 import pl.trains.model.Train;
 import pl.trains.model.Wagon;
+import pl.trains.services.TrainsService;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
@@ -23,7 +24,7 @@ import java.io.IOException;
 @WebServlet("/addtrain")
 public class AddTrain extends HttpServlet {
     @Inject
-    TrainDao trainsService;
+    TrainsService trainsService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException{

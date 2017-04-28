@@ -1,7 +1,6 @@
 package pl.trains.dao;
 
 import pl.trains.model.Loco;
-import pl.trains.model.Product;
 import pl.trains.model.Train;
 import pl.trains.model.Wagon;
 
@@ -139,12 +138,11 @@ public class TrainDaoImpl implements TrainDao {
     @Override
     @Transactional
     public List<Wagon> getWagonByAnything(String anything){
-        Wagon wagon = null;
 
-        TypedQuery<Wagon> query = entityManager.createQuery("select w from Wagon w where w.mark like :anything" +
-                " or w.owner like :anything or w.type like :anything or w.producer like :anything", Wagon.class );
-        query.setParameter("anything", "%" + anything + "&");
+        TypedQuery<Wagon> query = entityManager.createQuery("select w from Wagon w where w.mark like :anything or w.owner like :anything or w.type like :anything or w.producer like :anything", Wagon.class );
+        query.setParameter("anything", "%" + anything + "%");
         List<Wagon> wagonList = query.getResultList();
+        System.out.println(wagonList);
         return  wagonList;
     }
 

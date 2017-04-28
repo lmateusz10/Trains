@@ -7,7 +7,6 @@ import pl.trains.model.Wagon;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by mateusz on 18.04.17.
@@ -19,8 +18,13 @@ public class WagonsService implements IWagonsServices {
     TrainDao trainDao;
 
     @Override
-    public void addWagon(Wagon wagon) {
+    public boolean addWagon(Wagon wagon) {
+        if(trainDao.getAllWagons().contains(wagon)) {
+            return false;
+        }
+        else{
         trainDao.addWagon(wagon);
+        return true;}
     }
 
     @Override
@@ -39,12 +43,7 @@ public class WagonsService implements IWagonsServices {
     public void removeWagon(Wagon wagon) {
         trainDao.removeWagon(wagon);
     }
-/*
-    @Override
-    public void removeWagonById(Long id) {
-        Wagon wagon = getWagonById(id);
-        removeWagon(wagon);
-    }*/
+
 
     @Override
     public List<Wagon> getWagonByAnything(String anything){

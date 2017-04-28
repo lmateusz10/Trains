@@ -22,11 +22,12 @@ public class Train implements Serializable {
     private Long id;
 
     private String trainName;
+    private String trainNumber;
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_wagons",
             joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "wagon_id", referencedColumnName = "id")})
-    private Set<Wagon> wagons;
+    private List<Wagon> wagons;
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_locos",
             joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
@@ -43,11 +44,11 @@ public class Train implements Serializable {
     }
 
 
-    public void setWagons(Set<Wagon> wagons) {
+    public void setWagons(List<Wagon> wagons) {
         this.wagons = wagons;
     }
 
-    public Set<Wagon> getWagons() {
+    public List<Wagon> getWagons() {
         return wagons;
     }
 
@@ -55,10 +56,19 @@ public class Train implements Serializable {
     public Train() {
     }
 
-    public Train(String trainName, Set<Wagon> wagons, Set<Loco> locos) {
+    public Train(String trainName, String trainNumber, List<Wagon> wagons, Set<Loco> locos) {
         this.trainName = trainName;
+        this.trainNumber = trainNumber;
         this.wagons = wagons;
         this.locos = locos;
+    }
+
+    public String getTrainNumber() {
+        return trainNumber;
+    }
+
+    public void setTrainNumber(String trainNumber) {
+        this.trainNumber = trainNumber;
     }
 
     public long getId() {
@@ -84,11 +94,15 @@ public class Train implements Serializable {
 
         Train train = (Train) o;
 
-        return !(trainName != null ? !trainName.equals(train.trainName) : train.trainName != null);
+        if (trainName != null ? !trainName.equals(train.trainName) : train.trainName != null) return false;
+        return !(trainNumber != null ? !trainNumber.equals(train.trainNumber) : train.trainNumber != null);
+
     }
 
     @Override
     public int hashCode() {
-        return trainName != null ? trainName.hashCode() : 0;
+        int result = trainName != null ? trainName.hashCode() : 0;
+        result = 31 * result + (trainNumber != null ? trainNumber.hashCode() : 0);
+        return result;
     }
 }

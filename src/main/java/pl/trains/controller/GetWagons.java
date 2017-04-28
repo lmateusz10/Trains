@@ -2,6 +2,7 @@ package pl.trains.controller;
 
 import pl.trains.dao.TrainDao;
 import pl.trains.model.Wagon;
+import pl.trains.services.WagonsService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -18,10 +19,10 @@ import java.util.List;
 @WebServlet("/getwagons")
 public class GetWagons extends HttpServlet{
     @Inject
-    TrainDao trainsService;
+    WagonsService wagonsService;
     @Override
     protected void doGet(HttpServletRequest request,  HttpServletResponse response) throws ServletException, IOException{
-    List<Wagon> wagons=trainsService.getAllWagons();
+    List<Wagon> wagons=wagonsService.getAllWagons();
         for (Wagon wagon:wagons) {
             System.out.println(wagon);
         }

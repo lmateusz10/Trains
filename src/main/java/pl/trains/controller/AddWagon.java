@@ -3,6 +3,7 @@ package pl.trains.controller;
 import pl.trains.dao.TrainDao;
 import pl.trains.dao.TrainDaoImpl;
 import pl.trains.model.Wagon;
+import pl.trains.services.WagonsService;
 
 import javax.inject.Inject;
 import javax.persistence.*;
@@ -21,8 +22,7 @@ import java.io.IOException;
 public class AddWagon extends HttpServlet {
 
     @Inject
-    TrainDao trainsService;
-
+    WagonsService wagonsService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
@@ -32,9 +32,8 @@ public class AddWagon extends HttpServlet {
         wagon.setOwner(request.getParameter("owner"));
         wagon.setProducer(request.getParameter("producer"));
         wagon.setSeatingAreas(request.getParameter("seatingareas"));
-        wagon.setQuantity(request.getParameter("quantity"));
 
-        trainsService.addWagon(wagon);
+        wagonsService.addWagon(wagon);
         response.sendRedirect(request.getContextPath());
 
     }
