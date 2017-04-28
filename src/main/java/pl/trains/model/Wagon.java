@@ -24,7 +24,6 @@ public class Wagon implements Serializable{
     private String producer;
     private String owner;
     private String seatingAreas;
-    private String quantity;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "wagons")
     @JsonBackReference
     private List<Train> trains;
@@ -37,23 +36,14 @@ public class Wagon implements Serializable{
         this.trains = trains;
     }
 
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
-    }
-
     public Wagon(){}
 
-    public Wagon(String mark, String type, String producer, String owner, String seatingAreas, String quantity, List<Train> trains) {
+    public Wagon(String mark, String type, String producer, String owner, String seatingAreas, List<Train> trains) {
         this.mark = mark;
         this.type = type;
         this.producer = producer;
         this.owner = owner;
         this.seatingAreas = seatingAreas;
-        this.quantity = quantity;
         this.trains = trains;
     }
 
@@ -114,7 +104,6 @@ public class Wagon implements Serializable{
                 ", producer='" + producer + '\'' +
                 ", owner='" + owner + '\'' +
                 ", seatingAreas='" + seatingAreas + '\'' +
-                ", quantity='" + quantity + '\'' +
                 ", trains=" + trains +
                 '}';
     }
@@ -130,8 +119,7 @@ public class Wagon implements Serializable{
         if (type != null ? !type.equals(wagon.type) : wagon.type != null) return false;
         if (producer != null ? !producer.equals(wagon.producer) : wagon.producer != null) return false;
         if (owner != null ? !owner.equals(wagon.owner) : wagon.owner != null) return false;
-        if (seatingAreas != null ? !seatingAreas.equals(wagon.seatingAreas) : wagon.seatingAreas != null) return false;
-        return !(quantity != null ? !quantity.equals(wagon.quantity) : wagon.quantity != null);
+        return !(seatingAreas != null ? !seatingAreas.equals(wagon.seatingAreas) : wagon.seatingAreas != null);
 
     }
 
@@ -142,7 +130,6 @@ public class Wagon implements Serializable{
         result = 31 * result + (producer != null ? producer.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (seatingAreas != null ? seatingAreas.hashCode() : 0);
-        result = 31 * result + (quantity != null ? quantity.hashCode() : 0);
         return result;
     }
 }

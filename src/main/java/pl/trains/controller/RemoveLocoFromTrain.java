@@ -3,6 +3,8 @@ package pl.trains.controller;
 import pl.trains.dao.TrainDao;
 import pl.trains.model.Loco;
 import pl.trains.model.Train;
+import pl.trains.services.LocoService;
+import pl.trains.services.TrainsService;
 
 import javax.inject.Inject;
 import javax.servlet.Servlet;
@@ -20,7 +22,10 @@ import java.util.List;
 @WebServlet("/removelocofromtrain")
 public class RemoveLocoFromTrain extends HttpServlet {
     @Inject
-    TrainDao trainsService;
+    TrainsService trainsService;
+
+    @Inject
+    LocoService locoService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
@@ -29,14 +34,11 @@ public class RemoveLocoFromTrain extends HttpServlet {
         long locoid = Long.parseLong(request.getParameter("locoid"));
         long trainid = Long.parseLong(request.getParameter("trainid"));
 
-        Loco loco = trainsService.getLocoById(locoid);
+        Loco loco = locoService.getLocoById(locoid);
         Train train = trainsService.getTrainById(trainid);
 
         trainsService.removeLocoFromTrain(loco, train);
 
-        for (Loco loco1 : train.getLocos()) {
-            System.out.println("W servletcie: " + loco1.getName());
-        }
 
         response.sendRedirect(request.getContextPath());
 

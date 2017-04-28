@@ -2,6 +2,7 @@ package pl.trains.controller;
 
 import pl.trains.dao.TrainDao;
 import pl.trains.model.Train;
+import pl.trains.services.TrainsService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ import java.io.IOException;
 public class RemoveTrain extends HttpServlet {
 
     @Inject
-    TrainDao trainsService;
+    TrainsService trainsService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws

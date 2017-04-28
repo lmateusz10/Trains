@@ -4,6 +4,7 @@ import pl.trains.dao.TrainDao;
 import pl.trains.model.Loco;
 import pl.trains.model.Train;
 import pl.trains.model.Wagon;
+import pl.trains.services.LocoService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -21,12 +22,12 @@ import java.util.Set;
 @WebServlet("/getloco")
 public class GetLoco extends HttpServlet {
     @Inject
-    TrainDao trainsService;
+    LocoService locoService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Long locoid = Long.parseLong(request.getParameter("locoid"));
-        Loco loco = trainsService.getLocoById(locoid);
+        Loco loco = locoService.getLocoById(locoid);
 
         Set<Train> trains = loco.getTrains();
         for (Train train:trains) {

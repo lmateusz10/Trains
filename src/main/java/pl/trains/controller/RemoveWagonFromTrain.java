@@ -4,6 +4,8 @@ import pl.trains.dao.TrainDao;
 import pl.trains.model.Loco;
 import pl.trains.model.Train;
 import pl.trains.model.Wagon;
+import pl.trains.services.TrainsService;
+import pl.trains.services.WagonsService;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -19,7 +21,10 @@ import java.io.IOException;
 @WebServlet("/removewagonfromtrain")
 public class RemoveWagonFromTrain extends HttpServlet{
     @Inject
-    TrainDao trainsService;
+    TrainsService trainsService;
+
+    @Inject
+    WagonsService wagonsService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
@@ -28,7 +33,7 @@ public class RemoveWagonFromTrain extends HttpServlet{
         long wagonid = Long.parseLong(request.getParameter("wagonid"));
 
         Train train = trainsService.getTrainById(trainid);
-        Wagon wagon = trainsService.getWagonById(wagonid);
+        Wagon wagon = wagonsService.getWagonById(wagonid);
 
         trainsService.removeWagonFromTrain(wagon, train);
 
