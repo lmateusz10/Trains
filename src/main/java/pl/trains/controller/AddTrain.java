@@ -23,13 +23,13 @@ import java.io.IOException;
 @WebServlet("/addtrain")
 public class AddTrain extends HttpServlet {
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException{
         Train train = new Train();
         train.setTrainName(request.getParameter("name"));
-        trainDao.addTrain(train);
+        trainsService.addTrain(train);
         response.sendRedirect(request.getContextPath());
     }
 }

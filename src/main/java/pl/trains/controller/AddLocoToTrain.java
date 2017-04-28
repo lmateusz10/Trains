@@ -23,16 +23,16 @@ import java.io.IOException;
 @WebServlet("/addlocototrain")
 public class AddLocoToTrain extends HttpServlet{
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         long trainId = Long.parseLong(request.getParameter("trainid"));
         long locoId = Long.parseLong(request.getParameter("locoid"));
 
-        Train train=trainDao.getTrain(trainId);
-        Loco loco=trainDao.getLoco(locoId);
-        train = trainDao.addLocoToTrain(train, loco);
+        Train train=trainsService.getTrainById(trainId);
+        Loco loco=trainsService.getLocoById(locoId);
+        trainsService.addLocoToTrain(train, loco);
         response.sendRedirect(request.getContextPath());
     }
 

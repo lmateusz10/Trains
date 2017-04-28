@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet("/removewagonfromtrain")
 public class RemoveWagonFromTrain extends HttpServlet{
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
@@ -27,10 +27,10 @@ public class RemoveWagonFromTrain extends HttpServlet{
         long trainid = Long.parseLong(request.getParameter("trainid"));
         long wagonid = Long.parseLong(request.getParameter("wagonid"));
 
-        Train train = trainDao.getTrain(trainid);
-        Wagon wagon = trainDao.getWagon(wagonid);
+        Train train = trainsService.getTrainById(trainid);
+        Wagon wagon = trainsService.getWagonById(wagonid);
 
-        train = trainDao.removeWagonFromTrain(wagon, train);
+        trainsService.removeWagonFromTrain(wagon, train);
 
         response.sendRedirect(request.getContextPath());
     }

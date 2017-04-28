@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Mateusz on 18.03.2017.
@@ -20,14 +21,14 @@ import java.util.List;
 @WebServlet("/getloco")
 public class GetLoco extends HttpServlet {
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Long locoid = Long.parseLong(request.getParameter("locoid"));
-        Loco loco = trainDao.getLoco(locoid);
+        Loco loco = trainsService.getLocoById(locoid);
 
-        List<Train> trains = loco.getTrains();
+        Set<Train> trains = loco.getTrains();
         for (Train train:trains) {
             System.out.println(train.getTrainName());
         }

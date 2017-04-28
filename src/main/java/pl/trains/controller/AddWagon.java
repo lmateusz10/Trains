@@ -21,7 +21,7 @@ import java.io.IOException;
 public class AddWagon extends HttpServlet {
 
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +34,7 @@ public class AddWagon extends HttpServlet {
         wagon.setSeatingAreas(request.getParameter("seatingareas"));
         wagon.setQuantity(request.getParameter("quantity"));
 
-        trainDao.addWagon(wagon);
+        trainsService.addWagon(wagon);
         response.sendRedirect(request.getContextPath());
 
     }

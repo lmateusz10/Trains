@@ -21,14 +21,14 @@ import java.util.Set;
 @WebServlet("/gettrain")
 public class GetTrain extends HttpServlet {
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Long trainid=Long.parseLong(request.getParameter("trainid"));
-        Train train = trainDao.getTrain(trainid);
+        Train train = trainsService.getTrainById(trainid);
         Set<Loco> locos=train.getLocos();
-        List<Wagon> wagons = train.getWagons();
+        Set<Wagon> wagons = train.getWagons();
         StringBuilder sb = new StringBuilder();
         for (Loco loco:locos) {
             sb.append(loco.getName() + " ");

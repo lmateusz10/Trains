@@ -1,14 +1,20 @@
 package pl.trains.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Mateusz on 12.03.2017.
  */
 @Entity
 @Table(name = "locos")
+@NamedQuery(name = "locos.findAll", query = "SELECT l FROM Loco l")
 public class Loco implements Serializable{
     public static final long serialVersionUID = 1L;
 
@@ -20,17 +26,18 @@ public class Loco implements Serializable{
     private String powerType;
     private Double weight;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "locos")
-    private List<Train> trains;
-    public List<Train> getTrains() {
+    @JsonBackReference
+    private Set<Train> trains;
+    public Set<Train> getTrains() {
         return trains;
     }
-    public void setTrains(List<Train> trains) {
+    public void setTrains(Set<Train> trains) {
         this.trains = trains;
     }
 
     public Loco(){}
 
-    public Loco(String name, Integer maxSpeed, String powerType, Double weight, List<Train> trains) {
+    public Loco(String name, Integer maxSpeed, String powerType, Double weight, Set<Train> trains) {
         this.name = name;
         this.maxSpeed = maxSpeed;
         this.powerType = powerType;

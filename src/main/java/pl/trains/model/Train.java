@@ -1,5 +1,9 @@
 package pl.trains.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -18,17 +22,16 @@ public class Train implements Serializable {
     private Long id;
 
     private String trainName;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_wagons",
             joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "wagon_id", referencedColumnName = "id")})
-    private List<Wagon> wagons;
-
+    private Set<Wagon> wagons;
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "trains_locos",
             joinColumns = {@JoinColumn(name = "train_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "loco_id", referencedColumnName = "id")})
+
     private Set<Loco> locos;
 
     public Set<Loco> getLocos() {
@@ -40,11 +43,11 @@ public class Train implements Serializable {
     }
 
 
-    public void setWagons(List<Wagon> wagons) {
+    public void setWagons(Set<Wagon> wagons) {
         this.wagons = wagons;
     }
 
-    public List<Wagon> getWagons() {
+    public Set<Wagon> getWagons() {
         return wagons;
     }
 
@@ -52,7 +55,7 @@ public class Train implements Serializable {
     public Train() {
     }
 
-    public Train(String trainName, List<Wagon> wagons, Set<Loco> locos) {
+    public Train(String trainName, Set<Wagon> wagons, Set<Loco> locos) {
         this.trainName = trainName;
         this.wagons = wagons;
         this.locos = locos;
@@ -82,7 +85,6 @@ public class Train implements Serializable {
         Train train = (Train) o;
 
         return !(trainName != null ? !trainName.equals(train.trainName) : train.trainName != null);
-
     }
 
     @Override

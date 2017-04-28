@@ -18,7 +18,7 @@ import java.io.IOException;
 public class AddLoco extends HttpServlet{
 
     @Inject
-    TrainDao trainDao;
+    TrainDao trainsService;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         Loco loco = new Loco();
@@ -27,7 +27,7 @@ public class AddLoco extends HttpServlet{
         loco.setPowerType(request.getParameter("powertype"));
         loco.setWeight(Double.parseDouble(request.getParameter("weight")));
 
-        trainDao.addLoco(loco);
+        trainsService.addLoco(loco);
 
         response.sendRedirect(request.getContextPath());
 
